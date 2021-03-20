@@ -11,12 +11,12 @@ class Fleet(Widget):
     last_move_direction = NumericProperty(1)
     move_direction = NumericProperty(0)
 
-    MOVE_TIME = 0.5
     MOVE_STEP = 10
 
     def __init__(self, **kwargs):
         self.rows = kwargs.pop('rows', 0)
         self.cols = kwargs.pop('cols', 0)
+        self.move_time = kwargs.pop('move_time',0.01)
 
         super(Fleet, self).__init__(**kwargs)
 
@@ -43,8 +43,7 @@ class Fleet(Widget):
 
     def update(self, dt):
         self.elapsed += dt
-
-        if self.elapsed > self.MOVE_TIME or self.last_update is None:
+        if self.elapsed > self.move_time or self.last_update is None:
             #Logger.debug('move_dir=%d, last_dir=%d, x=%d, y=%d, height=%d, width=%d' % (self.move_direction, self.last_move_direction, self.x, self.y, self.height, self.width))
 
             # Move based on current direction.
@@ -75,11 +74,12 @@ class Fleet(Widget):
 
 
 class Invader(Widget):
+    name="Invader"
     image = StringProperty('images/invader.jpg')
     last_move_direction = NumericProperty(0)
     move_direction = NumericProperty(0)
+    move_time=0.5
 
-    MOVE_TIME = 0.5
     MOVE_STEP = 10
 
     def __init__(self, **kwargs):
@@ -94,7 +94,7 @@ class Invader(Widget):
         self.elapsed += dt
 
         # NOTE: Only move if not a part of a fleet.  Let the fleet control movement normally.
-        if not self.fleet and (self.elapsed > self.MOVE_TIME or self.last_update is None):
+        if not self.fleet and (self.elapsed > self.move_time or self.last_update is None):
             # Move based on current direction.
             if self.move_direction == 0:
                 self.center_y -= self.MOVE_STEP
@@ -121,6 +121,7 @@ class Invader(Widget):
 class Ship(Widget):
     image = StringProperty('images/ship.jpg')
     move_direction = NumericProperty(0)
+    name="Ship"
 
     def __init__(self, **kwargs):
         super(Ship, self).__init__(**kwargs)
@@ -153,8 +154,13 @@ class Ship(Widget):
 
         return bullet
 
+class ScoreLabel(Widget):
+    def __init__(self, **kwargs):
+        super(ScoreLabel, self).__init__(**kwargs)
+
 
 class Bullet(Widget):
+    name="Bullet"
     velocity_x = NumericProperty(0)
     velocity_y = NumericProperty(0)
     velocity = ReferenceListProperty(velocity_x, velocity_y)

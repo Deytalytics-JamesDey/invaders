@@ -6,6 +6,19 @@
         center_x: root.center_x
         center_y: 0 + self.height
 
+    Label:
+        id: scorelabel
+        pos: 20, root.height-70
+        font_size: 25
+        text: "SCORE: "+ str(root.score)
+
+    Label:
+        id: wavelabel
+        pos: root.width-100, root.height-70
+        font_size: 25
+        text: "WAVE: "+ str(root.wave)
+
+
 <Invader>:
     size: 50, 50
 
@@ -31,3 +44,6 @@
         Ellipse:
             pos: self.pos
             size: self.size
+
+
+
