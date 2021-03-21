@@ -12,7 +12,7 @@ class InvadersGame(Widget):
     score = 0
     wave = 1
     refresh = False
-    move_time = 0.1
+    move_time = 0.005
 
     def __init__(self):
         super(InvadersGame, self).__init__()

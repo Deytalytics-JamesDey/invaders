@@ -16,7 +16,7 @@ class Fleet(Widget):
     def __init__(self, **kwargs):
         self.rows = kwargs.pop('rows', 0)
         self.cols = kwargs.pop('cols', 0)
-        self.move_time = kwargs.pop('move_time',0.01)
+        self.move_time = kwargs.pop('move_time',0.005)
 
         super(Fleet, self).__init__(**kwargs)
 
@@ -51,6 +51,8 @@ class Fleet(Widget):
                 self.center_y -= self.MOVE_STEP
                 for s in self.ships:
                     s.center_y -= self.MOVE_STEP
+                    if s.center_y < 75:
+                        print(s.center_y,"Game Over: The Earth has been invaded")
 
                 # After moving down switch back to moving horizontally.
                 self.last_move_direction, self.move_direction = self.move_direction, -self.last_move_direction
