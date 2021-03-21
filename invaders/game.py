@@ -32,7 +32,6 @@ class InvadersGame(Widget):
 
     def update(self, dt):
         self.fleet.update(dt)
-
         for e in self._entities[:]:
             status = e.update(dt)
             if not status or e.collision_detected:

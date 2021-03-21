@@ -6,12 +6,17 @@ from kivy.logger import Logger
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty, ListProperty, StringProperty
 from kivy.vector import Vector
 
+from kivy.clock import Clock
+
 
 class Fleet(Widget):
     last_move_direction = NumericProperty(1)
     move_direction = NumericProperty(0)
 
     MOVE_STEP = 10
+
+    def gameover(self, dt):
+        quit()
 
     def __init__(self, **kwargs):
         self.rows = kwargs.pop('rows', 0)
@@ -46,13 +51,19 @@ class Fleet(Widget):
         if self.elapsed > self.move_time or self.last_update is None:
             #Logger.debug('move_dir=%d, last_dir=%d, x=%d, y=%d, height=%d, width=%d' % (self.move_direction, self.last_move_direction, self.x, self.y, self.height, self.width))
 
+
             # Move based on current direction.
             if self.move_direction == 0:
                 self.center_y -= self.MOVE_STEP
                 for s in self.ships:
                     s.center_y -= self.MOVE_STEP
                     if s.center_y < 75:
-                        print(s.center_y,"Game Over: The Earth has been invaded")
+                        self.ids['gameover'].text = "Game Over: The Earth has been invaded"
+                        Clock.schedule_once(self.gameover, 3 )
+                    if s not in self.parent._entities:
+                        self.ships.remove(s)
+
+
 
                 # After moving down switch back to moving horizontally.
                 self.last_move_direction, self.move_direction = self.move_direction, -self.last_move_direction
@@ -73,6 +84,7 @@ class Fleet(Widget):
             self.last_update, self.elapsed = self.elapsed, 0
 
         return True
+
 
 
 class Invader(Widget):
@@ -141,6 +153,8 @@ class Ship(Widget):
             elif self.x + self.width >= self.parent.width:
                 self.x = self.parent.width - self.width
 
+
+
         return True
 
     def fire(self, velocity=(0, 5)):
@@ -155,10 +169,6 @@ class Ship(Widget):
         self._fire_sound.play()
 
         return bullet
-
-class ScoreLabel(Widget):
-    def __init__(self, **kwargs):
-        super(ScoreLabel, self).__init__(**kwargs)
 
 
 class Bullet(Widget):
