@@ -50,6 +50,19 @@ class InvadersGame(Widget):
     def rightButton(self, *args):
         self.player_ship.move_direction = 1
 
+    def on_touch_down(self, touch):
+        C = [a - b for a, b in zip(touch.pos, self.player_ship.pos)]
+        if C[0] in range(50):
+            bullets = [e for e in self._entities if e.name == 'Bullet']
+            if len(bullets) < 2:
+                bullet = self.player_ship.fire()
+                self._add_entity(bullet)
+        if touch.pos[0] < 200 and touch.pos[1]<200:
+            self.player_ship.move_direction = -1
+
+        if touch.pos[0] > self.width - 200 and touch.pos[1] < 200:
+            self.player_ship.move_direction = 1
+
     def _init_fleet(self,move_time):
         self.fleet = Fleet(rows=5, cols=10, move_time=self.move_time)
         self.fleet.pos = ((self.width - self.fleet.width) / 2 + 50, 0)
