@@ -18,6 +18,25 @@
         font_size: 25
         text: "WAVE: "+ str(root.wave)
 
+    Button:
+        id: btnLeft
+        pos: (0, 1)
+        on_press: root.leftButton()
+        Image:
+            source: 'images/arrow_left.png'
+            allow_stretch: True
+            keep_ratio: False
+
+
+    Button:
+        id: btnRight
+        pos: (root.width-100, 1)
+        on_press: root.rightButton()
+        Image:
+            source: 'images/arrow_right.png'
+            allow_stretch: True
+            keep_ratio: False
+
 <Fleet>:
 
     Label:

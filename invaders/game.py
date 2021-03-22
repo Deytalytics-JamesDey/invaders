@@ -23,9 +23,6 @@ class InvadersGame(Widget):
         self._add_entity(self.player_ship, skip_widget=True)
         self._init_fleet(self.move_time)
 
-        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
-        self._keyboard.bind(on_key_down=self._on_key_down, on_key_up=self._on_key_up)
-
         self._music = SoundLoader.load('sounds/DST-DFear.mp3')
         self._music.play()
 
@@ -47,6 +44,37 @@ class InvadersGame(Widget):
                     self._init_fleet(self.move_time)
                     refresh=False
 
+    def leftButton(self, *args):
+        self.player_ship.move_direction = -1
+
+    def rightButton(self, *args):
+        self.player_ship.move_direction = 1
+
+    def _init_fleet(self,move_time):
+        self.fleet = Fleet(rows=5, cols=10, move_time=self.move_time)
+        self.fleet.pos = ((self.width - self.fleet.width) / 2 + 50, 0)
+        self.add_widget(self.fleet)
+
+        self.fleet.create_fleet()
+        for s in self.fleet.ships:
+            self._add_entity(s)
+        self.redraw=False
+
+    def _add_entity(self, entity, skip_widget=False):
+        self._entities.append(entity)
+        if not skip_widget:
+            self.add_widget(entity)
+
+    def _remove_entity(self, entity):
+        self.remove_widget(entity)
+        self._entities.remove(entity)
+
+
+"""
+        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
+        self._keyboard.bind(on_key_down=self._on_key_down, on_key_up=self._on_key_up)
+"""
+"""
     def _on_key_down(self, keyboard, keycode, text, modifiers):
         #Logger.debug(keycode)
 
@@ -80,22 +108,4 @@ class InvadersGame(Widget):
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_key_down)
         self._keyboard = None
-
-    def _init_fleet(self,move_time):
-        self.fleet = Fleet(rows=5, cols=10, move_time=self.move_time)
-        self.fleet.pos = ((self.width - self.fleet.width) / 2 + 50, 0)
-        self.add_widget(self.fleet)
-
-        self.fleet.create_fleet()
-        for s in self.fleet.ships:
-            self._add_entity(s)
-        self.redraw=False
-
-    def _add_entity(self, entity, skip_widget=False):
-        self._entities.append(entity)
-        if not skip_widget:
-            self.add_widget(entity)
-
-    def _remove_entity(self, entity):
-        self.remove_widget(entity)
-        self._entities.remove(entity)
+"""
