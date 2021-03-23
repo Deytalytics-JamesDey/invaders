@@ -196,7 +196,7 @@ class Bullet(Widget):
                 return False
 
         # Check if we've gone off-screen
-        if self.center_y > self.parent.height:
+        if self.center_y > 400:
             return False
 
         # Still alive.

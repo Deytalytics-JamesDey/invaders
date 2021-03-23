@@ -5,6 +5,7 @@ from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.logger import Logger
 from kivy.core.audio import SoundLoader
+from kivy.clock import Clock
 
 from .entities import Invader, Fleet
 
@@ -60,10 +61,20 @@ class InvadersGame(Widget):
                 bullet = self.player_ship.fire()
                 self._add_entity(bullet)
         if touch.pos[0] < self.player_ship.x-50 and touch.pos[1]<200:
-            self.player_ship.x -= 10
+            Clock.schedule_interval(self.move_left, 0)
 
         if touch.pos[0] > self.player_ship.x+50 and touch.pos[1] < 200:
-            self.player_ship.x += 10
+            Clock.schedule_interval(self.move_right, 0)
+
+    def on_touch_up(self, touch):
+        Clock.unschedule(self.move_left)
+        Clock.unschedule(self.move_right)
+
+    def move_left(self, dt):
+        self.player_ship.x -= 10
+
+    def move_right(self, dt):
+        self.player_ship.x += 10
 
     def _init_fleet(self,move_time):
         self.fleet = Fleet(rows=5, cols=10, move_time=self.move_time)
