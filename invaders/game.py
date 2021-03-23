@@ -12,7 +12,7 @@ class InvadersGame(Widget):
     score = 0
     wave = 1
     refresh = False
-    move_time = 0.005
+    move_time = 0.1
 
     def __init__(self):
         super(InvadersGame, self).__init__()
@@ -40,7 +40,7 @@ class InvadersGame(Widget):
                     refresh=True
                     self.wave += 1
                     self.ids['wavelabel'].text = "WAVE: " + str(self.wave)
-                    self.move_time*=0.1
+                    self.move_time*=0.9
                     self._init_fleet(self.move_time)
                     refresh=False
 
@@ -50,6 +50,7 @@ class InvadersGame(Widget):
     def rightButton(self, *args):
         self.player_ship.move_direction = 1
 
+
     def on_touch_down(self, touch):
         C = [a - b for a, b in zip(touch.pos, self.player_ship.pos)]
         if C[0] in range(50):
@@ -57,11 +58,11 @@ class InvadersGame(Widget):
             if len(bullets) < 2:
                 bullet = self.player_ship.fire()
                 self._add_entity(bullet)
-        if touch.pos[0] < 200 and touch.pos[1]<200:
-            self.player_ship.move_direction = -1
+        if touch.pos[0] < self.player_ship.x-50 and touch.pos[1]<200:
+            self.player_ship.x -= 10
 
-        if touch.pos[0] > self.width - 200 and touch.pos[1] < 200:
-            self.player_ship.move_direction = 1
+        if touch.pos[0] > self.player_ship.x+50 and touch.pos[1] < 200:
+            self.player_ship.x += 10
 
     def _init_fleet(self,move_time):
         self.fleet = Fleet(rows=5, cols=10, move_time=self.move_time)

@@ -18,45 +18,6 @@
         font_size: 25
         text: "WAVE: "+ str(root.wave)
 
-    Button:
-        id: btnLeft
-        pos: (0, 1)
-        on_press: root.leftButton()
-        size: (25,25)
-        Image:
-            source: 'images/arrow_left.png'
-            size: self.parent.size
-            x: self.parent.x
-            y: self.parent.y + .5* self.parent.height -.5 * self.parent.width/self.image_ratio
-            allow_stretch: True
-            keep_ratio: False
-
-    Button:
-        id: btnRight
-        pos: (root.width-25, 1)
-        on_press: root.rightButton()
-        size: (25,25)
-        Image:
-            source: 'images/arrow_right.png'
-            size: self.parent.size
-            x: self.parent.x
-            y: self.parent.y + .5* self.parent.height -.5 * self.parent.width/self.image_ratio
-            allow_stretch: True
-            keep_ratio: False
-
-    Button:
-        id: btnFire
-        pos: (0, 1)
-        on_press: root.leftButton()
-        size: (25,25)
-        Image:
-            source: 'images/arrow_left.png'
-            size: self.parent.size
-            x: self.parent.x
-            y: self.parent.y + .5* self.parent.height -.5 * self.parent.width/self.image_ratio
-            allow_stretch: True
-            keep_ratio: False
-
 
 <Fleet>:
 
