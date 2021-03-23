@@ -28,6 +28,7 @@ class Fleet(Widget):
         self.width = self.cols * Invader().width
         self.height = self.rows * Invader().height
 
+
         self.last_update = None
         self.elapsed = 0
         self.ships = []
@@ -38,8 +39,7 @@ class Fleet(Widget):
             for j in range(self.rows):
                 invader = Invader()
                 invader.x = (self.parent.width - self.width) / 2 + (i + 1) * invader.width
-                invader.y = self.parent.height - ((j + 1) * invader.height)
-
+                invader.y = 400 - ((j + 1) * invader.height)
                 self.add_ship(invader)
 
     def add_ship(self, ship):

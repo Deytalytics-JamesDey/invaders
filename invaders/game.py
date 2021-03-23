@@ -17,7 +17,7 @@ class InvadersGame(Widget):
     def __init__(self):
         super(InvadersGame, self).__init__()
 
-        self.size = (800, 600)
+        self.size = (400, 400)
         self._entities = []
 
         self._add_entity(self.player_ship, skip_widget=True)
@@ -41,6 +41,7 @@ class InvadersGame(Widget):
                     self.wave += 1
                     self.ids['wavelabel'].text = "WAVE: " + str(self.wave)
                     self.move_time*=0.9
+                    self.size = (400, 400)
                     self._init_fleet(self.move_time)
                     refresh=False
 
@@ -72,7 +73,6 @@ class InvadersGame(Widget):
         self.fleet.create_fleet()
         for s in self.fleet.ships:
             self._add_entity(s)
-        self.redraw=False
 
     def _add_entity(self, entity, skip_widget=False):
         self._entities.append(entity)
@@ -82,44 +82,3 @@ class InvadersGame(Widget):
     def _remove_entity(self, entity):
         self.remove_widget(entity)
         self._entities.remove(entity)
-
-
-"""
-        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
-        self._keyboard.bind(on_key_down=self._on_key_down, on_key_up=self._on_key_up)
-"""
-"""
-    def _on_key_down(self, keyboard, keycode, text, modifiers):
-        #Logger.debug(keycode)
-
-        if keycode[1] == 'escape':
-            sys.exit(0)
-
-        elif keycode[1] == 'spacebar':
-            bullets = [e for e in self._entities if e.name=='Bullet']
-            if len(bullets)<2:
-                bullet = self.player_ship.fire()
-                self._add_entity(bullet)
-
-        elif keycode[1] in ('left', 'right'):
-            if keycode[1] == 'left':
-                self.player_ship.move_direction = -1
-            elif keycode[1] == 'right':
-                self.player_ship.move_direction = 1
-
-        elif keycode[1] == 'z':
-            invader = Invader()
-            invader.center = (random.randint(0, self.width), random.randint(self.height * 0.66, self.height))
-
-            self._add_entity(invader)
-
-        return True
-
-    def _on_key_up(self, keyboard, keycode):
-        if keycode[1] in ('left', 'right'):
-            self.player_ship.move_direction = 0
-
-    def _keyboard_closed(self):
-        self._keyboard.unbind(on_key_down=self._on_key_down)
-        self._keyboard = None
-"""
